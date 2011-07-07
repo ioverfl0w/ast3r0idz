@@ -18,7 +18,7 @@ public class Asteroids {
     public void update() {
         for (int i = 0; i < asteroids.length; i++) {
             if (asteroids[i] == null) {
-                if (Game.RANDOM.nextInt(500) == 1) {
+                if (Game.RANDOM.nextInt(200) == 1) {
                     asteroids[i] = generate();
                 }
                 continue;
