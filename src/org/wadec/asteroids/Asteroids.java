@@ -6,4 +6,5 @@ package org.wadec.asteroids;
  */
 public class Asteroids {
 
+    private Asteroid[] asteroids = new Asteroid[20];
 }

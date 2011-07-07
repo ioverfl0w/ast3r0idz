@@ -19,6 +19,20 @@ public class Frame extends JFrame implements KeyListener {
     }
 
     public void run() {
+        try {
+            while (true) {
+                long s = System.currentTimeMillis();
+
+                //update game
+                if (game.isActive()) {
+                    game.process();
+                }
+
+                Thread.sleep(10 - (System.currentTimeMillis() - s));
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
     public void keyPressed(KeyEvent e) {
@@ -26,6 +40,7 @@ public class Frame extends JFrame implements KeyListener {
 
         switch (e.getKeyCode()) {
             case KeyEvent.VK_S://start
+                game.printError("You can't do that yet!");
                 return;
         }
     }
@@ -34,12 +49,14 @@ public class Frame extends JFrame implements KeyListener {
         //jframe basics
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         addKeyListener(this);
-        setResizable(false);
+        //setResizable(false);
         setSize(640, 400);
 
         //create game session
         game = new Game();
+        game.setSize(640,400);
         add(game);
+        game.setLocation(100,100);
     }
 
     public static void main(String[] args) {
