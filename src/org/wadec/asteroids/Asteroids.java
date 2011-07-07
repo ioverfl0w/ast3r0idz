@@ -9,9 +9,11 @@ import java.awt.Graphics;
 public class Asteroids {
 
     private Asteroid[] asteroids;
+    public int count;
 
     public Asteroids(int diff) {
         asteroids = new Asteroid[diff];
+        count = 0;
     }
 
     public boolean needUpdate() {
@@ -29,12 +31,14 @@ public class Asteroids {
             if (asteroids[i] == null) {
                 if (Game.RANDOM.nextInt(100) == 1) {
                     asteroids[i] = generate();
+                    count++;
                 }
                 continue;
             }
 
             if (asteroids[i].compelte()) {
                 asteroids[i] = null;
+                count--;
                 continue;
             }
         }

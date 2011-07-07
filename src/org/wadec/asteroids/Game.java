@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 import java.util.Random;
 
 /**
@@ -13,11 +14,13 @@ import java.util.Random;
 public class Game extends Component {
 
     private Asteroids ast = null;
-    private boolean active = false;
+    private boolean active = false, force = false;
     private String error = null;
     private int difficulty = 10, score = 0;
+    private BufferedImage buff = null;
 
     public Game() {
+        force = true;
         System.out.println("game session started");
     }
 
@@ -33,6 +36,8 @@ public class Game extends Component {
         }
 
         //paint frame
+        buff = new BufferedImage(Asteroids.FRAME_X, Asteroids.FRAME_Y, BufferedImage.TYPE_INT_RGB);
+        draw(buff.getGraphics());//create the frame
         repaint();
     }
 
@@ -65,6 +70,17 @@ public class Game extends Component {
 
     @Override
     public void paint(Graphics g) {
+        //print the buffered frame
+        if (buff != null) {
+            g.drawImage(buff, 0, 0, this);
+        }
+
+        if (force) {
+            draw(g);
+        }
+    }
+
+    public void draw(Graphics g) {
         //draw background
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, 640, 400);
@@ -72,6 +88,7 @@ public class Game extends Component {
         if (active) {
             g.setColor(Color.DARK_GRAY);
             g.drawString("score: " + score, 5, 15);
+            g.drawString("asteroids: " + ast.count, 5, 25);
             g.setColor(Color.WHITE);
             ast.paint(g);//draw asteroids
             return;

@@ -19,8 +19,16 @@ public class Frame extends JFrame implements KeyListener, Runnable {
     }
 
     public void run() {
+        long c = 0;
         try {
             while (true) {
+                //frees up memory some (every 5 seconds)
+                if (c == 500) {
+                    System.gc();
+                    c = 0;
+                }
+                c++;
+
                 //update game
                 if (game.isActive()) {
                     game.process();
