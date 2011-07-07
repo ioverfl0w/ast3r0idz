@@ -43,6 +43,12 @@ public class Frame extends JFrame implements KeyListener, Runnable {
                     game.setActive(true);
                 }
                 return;
+            case KeyEvent.VK_Q://quit
+                if (game.isActive()) {
+                    game.setActive(false);
+                    repaint();
+                }
+                return;
             case KeyEvent.VK_U://up
                 if (!game.isActive()) {
                     game.addDifficulty();
@@ -56,6 +62,9 @@ public class Frame extends JFrame implements KeyListener, Runnable {
                 } else { //ingame
                 }
                 return;
+            default:
+                game.printError("unknown option " + e.getKeyChar());
+                return;
         }
     }
 
@@ -63,12 +72,13 @@ public class Frame extends JFrame implements KeyListener, Runnable {
         //jframe basics
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         addKeyListener(this);
-        setResizable(false);
+        //setResizable(false);
         setSize(640, 400);
 
         //create game session
         game = new Game();
         add(game);
+        game.setLocation(0, 0);
     }
 
     public static void main(String[] args) {

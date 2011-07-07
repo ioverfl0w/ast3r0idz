@@ -11,7 +11,14 @@ public class Asteroids {
     private Asteroid[] asteroids;
 
     public Asteroids(int diff) {
-        asteroids = new Asteroid[diff * 2];
+        asteroids = new Asteroid[diff];
+    }
+
+    public boolean needUpdate() {
+        for (Asteroid a : asteroids)
+            if (a == null || a.compelte())
+                return true;
+        return false;
     }
 
     //updates here

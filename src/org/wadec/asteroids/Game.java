@@ -28,7 +28,9 @@ public class Game extends Component {
 
     public void process() {
         //do game checks
-        ast.update();
+        if (ast.needUpdate()) {
+            ast.update();
+        }
 
         //paint frame
         repaint();
@@ -66,12 +68,16 @@ public class Game extends Component {
         //draw background
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, 640, 400);
-        g.setColor(Color.WHITE);
 
         if (active) {
+            g.setColor(Color.DARK_GRAY);
+            g.drawString("score: " + score, 5, 15);
+            g.setColor(Color.WHITE);
             ast.paint(g);//draw asteroids
             return;
         }
+
+        g.setColor(Color.WHITE);
 
         //menu
         generateMenu(g);

@@ -1,5 +1,7 @@
 package org.wadec.asteroids;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 
 /**
@@ -27,6 +29,14 @@ public class Asteroid {
         //draw the asteroid
         g.drawRoundRect(pos[0] - size, pos[1] - size, size * 2, size * 2, size * 2, size * 2);
 
+        /*
+        //display coords
+        g.setColor(Color.RED);
+        g.setFont(debug);
+        g.drawString("[" + pos[0] + "," + pos[1] + "]", pos[0] + size + 2, pos[1] + size + 2);
+        g.setColor(Color.WHITE);
+        */
+
         //move the asteroid along its path
         if (delay < speed) {
             delay++;
@@ -53,4 +63,5 @@ public class Asteroid {
             return ((float) source[1] - (float) source[1]) / (float) source[0];
         }
     }
+    private final Font debug = new Font(Font.SANS_SERIF, Font.PLAIN, 8);
 }
