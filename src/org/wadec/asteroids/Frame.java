@@ -63,7 +63,7 @@ public class Frame extends JFrame implements KeyListener, Runnable {
                 }
                 return;
             default:
-                game.printError("unknown option " + e.getKeyChar());
+                game.printError("unknown option '" + e.getKeyChar() + "'");
                 return;
         }
     }
@@ -73,7 +73,7 @@ public class Frame extends JFrame implements KeyListener, Runnable {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         addKeyListener(this);
         //setResizable(false);
-        setSize(640, 400);
+        setSize(640, 433);
 
         //create game session
         game = new Game();

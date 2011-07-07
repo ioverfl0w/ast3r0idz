@@ -15,9 +15,11 @@ public class Asteroids {
     }
 
     public boolean needUpdate() {
-        for (Asteroid a : asteroids)
-            if (a == null || a.compelte())
+        for (Asteroid a : asteroids) {
+            if (a == null || a.compelte()) {
                 return true;
+            }
+        }
         return false;
     }
 
@@ -25,7 +27,7 @@ public class Asteroids {
     public void update() {
         for (int i = 0; i < asteroids.length; i++) {
             if (asteroids[i] == null) {
-                if (Game.RANDOM.nextInt(200) == 1) {
+                if (Game.RANDOM.nextInt(100) == 1) {
                     asteroids[i] = generate();
                 }
                 continue;
@@ -52,8 +54,8 @@ public class Asteroids {
         return new Asteroid(
                 d == 0 ? 0 : FRAME_X, Game.RANDOM.nextInt(FRAME_Y), //start
                 d == 0 ? FRAME_X : 0, Game.RANDOM.nextInt(FRAME_Y), //end
-                Game.RANDOM.nextInt(6) + 1, //speed
-                Game.RANDOM.nextInt(4) + 1);        //size
+                Game.RANDOM.nextInt(6) + 2, //speed
+                Game.RANDOM.nextInt(4) + 2);        //size
     }
     public static final int FRAME_X = 640, FRAME_Y = 400;
 }

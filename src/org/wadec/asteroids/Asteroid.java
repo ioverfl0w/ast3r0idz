@@ -1,7 +1,5 @@
 package org.wadec.asteroids;
 
-import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
 
 /**
@@ -29,14 +27,6 @@ public class Asteroid {
         //draw the asteroid
         g.drawRoundRect(pos[0] - size, pos[1] - size, size * 2, size * 2, size * 2, size * 2);
 
-        /*
-        //display coords
-        g.setColor(Color.RED);
-        g.setFont(debug);
-        g.drawString("[" + pos[0] + "," + pos[1] + "]", pos[0] + size + 2, pos[1] + size + 2);
-        g.setColor(Color.WHITE);
-        */
-
         //move the asteroid along its path
         if (delay < speed) {
             delay++;
@@ -47,12 +37,12 @@ public class Asteroid {
     }
 
     public boolean compelte() {
-        return pos[0] == dest[0] && pos[1] == dest[1];
+        return (pos[0] == dest[0] && pos[1] == dest[1]) || (source[0] == Asteroids.FRAME_X && pos[0] < dest[0]);
     }
 
     public void advance() {
         int x = source[0] == 0 ? pos[0] + 1 : pos[0] - 1;
-        int y = (int) ((slope * (float) x) + (float) source[1]);
+        int y = Math.round((slope * (float) x) + (float) source[1]);
         pos = new int[]{x, y};
     }
 
@@ -60,8 +50,7 @@ public class Asteroid {
         if (source[0] == 0) {
             return ((float) dest[1] - (float) source[1]) / (float) dest[0];
         } else {
-            return ((float) source[1] - (float) source[1]) / (float) source[0];
+            return ((float) source[1] - (float) dest[1]) / (float) source[0];
         }
     }
-    private final Font debug = new Font(Font.SANS_SERIF, Font.PLAIN, 8);
 }
