@@ -10,7 +10,7 @@ public class Asteroid {
 
     private final int[] source, dest;
     private int[] pos = new int[2];
-    private int[][] design;
+    private int[][] design;//TODO generate random asteroid designs
     private float slope;
     private int speed = 0, delay = 0, size = 0;
 
@@ -41,12 +41,16 @@ public class Asteroid {
     }
 
     public void advance() {
-        int x = pos[0] + 1;
+        int x = source[0] == 0 ? pos[0] + 1 : pos[0] - 1;
         int y = (int) ((slope * (float) x) + (float) source[1]);
         pos = new int[]{x, y};
     }
 
     private float getSlope() {
-        return ((float) dest[1] - (float) source[1]) / (float) dest[0];
+        if (source[0] == 0) {
+            return ((float) dest[1] - (float) source[1]) / (float) dest[0];
+        } else {
+            return ((float) source[1] - (float) source[1]) / (float) source[0];
+        }
     }
 }

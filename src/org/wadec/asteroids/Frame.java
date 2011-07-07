@@ -8,7 +8,7 @@ import javax.swing.JFrame;
  *
  * @author Wade C
  */
-public class Frame extends JFrame implements KeyListener {
+public class Frame extends JFrame implements KeyListener, Runnable {
 
     private Game game;
 
@@ -36,11 +36,27 @@ public class Frame extends JFrame implements KeyListener {
     }
 
     public void keyPressed(KeyEvent e) {
-        System.out.println("KEY:\t" + e.getKeyChar() + "\t" + e.getKeyCode());
+        //System.out.println("KEY:\t" + e.getKeyChar() + "\t" + e.getKeyCode());
 
         switch (e.getKeyCode()) {
             case KeyEvent.VK_S://start
-                game.printError("You can't do that yet!");
+                if (!game.isActive()) {
+                    game.create();
+                    game.setActive(true);
+                }
+                return;
+            case KeyEvent.VK_U://up
+                if (!game.isActive()) {
+                    game.addDifficulty();
+                    repaint();
+                }
+                return;
+            case KeyEvent.VK_D://down
+                if (!game.isActive()) {
+                    game.delDifficulty();
+                    repaint();
+                } else { //ingame
+                }
                 return;
         }
     }
@@ -49,18 +65,17 @@ public class Frame extends JFrame implements KeyListener {
         //jframe basics
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         addKeyListener(this);
-        //setResizable(false);
+        setResizable(false);
         setSize(640, 400);
 
         //create game session
         game = new Game();
-        game.setSize(640,400);
         add(game);
-        game.setLocation(100,100);
     }
 
     public static void main(String[] args) {
-        new Frame().run();
+        Frame frame = new Frame();
+        new Thread(frame).start();//start game engine
     }
 
     public void keyReleased(KeyEvent e) {//not used

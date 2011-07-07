@@ -12,20 +12,25 @@ import java.util.Random;
  */
 public class Game extends Component {
 
-    private final Asteroids ast;
-    private boolean active = true;
+    private Asteroids ast = null;
+    private boolean active = false;
     private String error = null;
-    private Asteroid test = new Asteroid(0, 200, 640, 0, 10, 3);
+    private int difficulty = 10;
 
     public Game() {
-        ast = new Asteroids();
+        System.out.println("game session started");
+    }
+
+    public void create() {
+        ast = new Asteroids(difficulty);
     }
 
     public void process() {
-        //draw the current frame
-        repaint();
-
         //do game checks
+        ast.update();
+
+        //paint frame
+        repaint();
     }
 
     public boolean isActive() {
@@ -39,9 +44,19 @@ public class Game extends Component {
         }
     }
 
+    public void addDifficulty() {
+        difficulty++;
+    }
+
+    public void delDifficulty() {
+        if (difficulty - 1 < 5) {
+            return;
+        }
+        difficulty--;
+    }
+
     public void printError(String err) {
         error = err;
-        System.out.println("ERROR: " + error);
         repaint();
     }
 
@@ -50,11 +65,10 @@ public class Game extends Component {
         //draw background
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, 640, 400);
-        g.setColor(Color.RED);//white for game mode, red debug
-
-        test.draw(g);
+        g.setColor(Color.WHITE);
 
         if (active) {
+            ast.paint(g);//draw asteroids
             return;
         }
 
@@ -75,8 +89,12 @@ public class Game extends Component {
         //menu options
         g.setFont(NORMAL);
         g.drawString(">> Press 's' to start <<", 240, 100);
-        g.drawString("Game by wadec", 270, 150);
-        g.drawString("irc.strictfp.com / #nova", 240, 300);
+        g.drawString("use WASD to play", 250, 120);
+        g.drawString("Set difficulty (u)p or (d)own", 230, 170);
+        g.drawString("(number of asteroids at once)", 220, 190);
+        g.drawString("Current Difficulty: " + difficulty, 240, 210);
+        g.drawString("A game by wadec", 250, 270);
+        g.drawString("irc.strictfp.com / #nova", 240, 290);
     }
 
     private void printError(Graphics g) {
