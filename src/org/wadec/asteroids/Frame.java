@@ -21,14 +21,12 @@ public class Frame extends JFrame implements KeyListener, Runnable {
     public void run() {
         try {
             while (true) {
-                long s = System.currentTimeMillis();
-
                 //update game
                 if (game.isActive()) {
                     game.process();
                 }
 
-                Thread.sleep(10 - (System.currentTimeMillis() - s));
+                Thread.sleep(10);
             }
         } catch (Exception ex) {
             ex.printStackTrace();

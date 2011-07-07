@@ -15,7 +15,7 @@ public class Game extends Component {
     private Asteroids ast = null;
     private boolean active = false;
     private String error = null;
-    private int difficulty = 10;
+    private int difficulty = 10, score = 0;
 
     public Game() {
         System.out.println("game session started");
@@ -23,6 +23,7 @@ public class Game extends Component {
 
     public void create() {
         ast = new Asteroids(difficulty);
+        score = 0;
     }
 
     public void process() {
