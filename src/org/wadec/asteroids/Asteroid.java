@@ -1,6 +1,7 @@
 package org.wadec.asteroids;
 
 import java.awt.Graphics;
+import java.awt.Point;
 
 /**
  *
@@ -8,15 +9,15 @@ import java.awt.Graphics;
  */
 public class Asteroid {
 
-    private final int[] source, dest;
-    private int[] pos = new int[2];
+    private final Point source, dest;
+    private Point pos;
     private int[][] design;//TODO generate random asteroid designs
     private float slope;
     private int speed = 0, delay = 0, size = 0;
 
     public Asteroid(int oX, int oY, int dX, int dY, int spee, int siz) {
-        source = new int[]{oX, oY};//source of the asteroid
-        dest = new int[]{dX, dY};//destination
+        source = new Point(oX, oY);//source of the asteroid
+        dest = new Point(dX, dY);//destination
         pos = source;
         slope = getSlope();
         speed = spee;
@@ -25,7 +26,7 @@ public class Asteroid {
 
     public void draw(Graphics g) {
         //draw the asteroid
-        g.drawRoundRect(pos[0] - size, pos[1] - size, size * 2, size * 2, size * 2, size * 2);
+        g.drawRoundRect(pos.x - size, pos.y - size, size * 2, size * 2, size * 2, size * 2);
 
         //move the asteroid along its path
         if (delay < speed) {
@@ -37,20 +38,20 @@ public class Asteroid {
     }
 
     public boolean compelte() {
-        return (pos[0] == dest[0] && pos[1] == dest[1]) || (source[0] == Asteroids.FRAME_X && pos[0] < dest[0]);
+        return (pos.x == dest.x && pos.y == dest.y) || (source.x == Game.FRAME_X && pos.x < dest.x);
     }
 
     public void advance() {
-        int x = source[0] == 0 ? pos[0] + 1 : pos[0] - 1;
-        int y = Math.round((slope * (float) x) + (float) source[1]);
-        pos = new int[]{x, y};
+        int x = source.x == 0 ? pos.x + 1 : pos.x - 1;
+        int y = Math.round((slope * (float) x) + (float) source.y);
+        pos = new Point(x, y);
     }
 
     private float getSlope() {
-        if (source[0] == 0) {
-            return ((float) dest[1] - (float) source[1]) / (float) dest[0];
+        if (source.x == 0) {
+            return ((float) dest.y - (float) source.y) / (float) dest.x;
         } else {
-            return ((float) source[1] - (float) dest[1]) / (float) source[0];
+            return ((float) source.y - (float) dest.y) / (float) source.x;
         }
     }
 }

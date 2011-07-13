@@ -57,21 +57,24 @@ public class Frame extends JFrame implements KeyListener, Runnable {
                     repaint();
                 }
                 return;
-            case KeyEvent.VK_U://up
+            case KeyEvent.VK_U://difficulty ++
                 if (!game.isActive()) {
                     game.addDifficulty();
                     repaint();
                 }
                 return;
-            case KeyEvent.VK_D://down
+            case KeyEvent.VK_D://difficulty --
                 if (!game.isActive()) {
                     game.delDifficulty();
                     repaint();
                 } else { //ingame
+                    game.getCraft().rotateClockwise();
                 }
                 return;
-            default:
-                game.printError("unknown option '" + e.getKeyChar() + "'");
+            case KeyEvent.VK_A://left rotate
+                if (game.isActive()) {
+                    game.getCraft().rotateCounterClockwise();
+                }
                 return;
         }
     }
@@ -80,7 +83,7 @@ public class Frame extends JFrame implements KeyListener, Runnable {
         //jframe basics
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         addKeyListener(this);
-        //setResizable(false);
+        setResizable(false);
         setSize(640, 433);
 
         //create game session
@@ -95,6 +98,14 @@ public class Frame extends JFrame implements KeyListener, Runnable {
     }
 
     public void keyReleased(KeyEvent e) {//not used
+        switch (e.getKeyCode()) {
+            case KeyEvent.VK_A://rotation
+            case KeyEvent.VK_D://rotation
+                if (game.isActive()) {
+                    game.getCraft().resetRotation();
+                }
+                return;
+        }
     }
 
     public void keyTyped(KeyEvent e) {//not used

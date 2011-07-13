@@ -56,10 +56,9 @@ public class Asteroids {
     private Asteroid generate() {
         int d = Game.RANDOM.nextBoolean() ? 1 : 0;//0 = L->R, 1 = R->L
         return new Asteroid(
-                d == 0 ? 0 : FRAME_X, Game.RANDOM.nextInt(FRAME_Y), //start
-                d == 0 ? FRAME_X : 0, Game.RANDOM.nextInt(FRAME_Y), //end
+                d == 0 ? 0 : Game.FRAME_X, Game.RANDOM.nextInt(Game.FRAME_Y), //start
+                d == 0 ? Game.FRAME_X : 0, Game.RANDOM.nextInt(Game.FRAME_Y), //end
                 Game.RANDOM.nextInt(6) + 2, //speed
                 Game.RANDOM.nextInt(4) + 2);        //size
     }
-    public static final int FRAME_X = 640, FRAME_Y = 400;
 }

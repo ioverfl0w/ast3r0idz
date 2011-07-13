@@ -14,8 +14,8 @@ import java.util.Random;
 public class Game extends Component {
 
     private Asteroids ast = null;
+    private SpaceCraft craft = null;
     private boolean active = false, force = false;
-    private String error = null;
     private int difficulty = 10, score = 0;
     private BufferedImage buff = null;
 
@@ -26,17 +26,18 @@ public class Game extends Component {
 
     public void create() {
         ast = new Asteroids(difficulty);
+        craft = new SpaceCraft();
         score = 0;
     }
 
     public void process() {
-        //do game checks
+        //update asteroids
         if (ast.needUpdate()) {
             ast.update();
         }
 
         //paint frame
-        buff = new BufferedImage(Asteroids.FRAME_X, Asteroids.FRAME_Y, BufferedImage.TYPE_INT_RGB);
+        buff = new BufferedImage(FRAME_X, FRAME_Y, BufferedImage.TYPE_INT_RGB);
         draw(buff.getGraphics());//create the frame
         repaint();
     }
@@ -47,9 +48,6 @@ public class Game extends Component {
 
     public void setActive(boolean bool) {
         active = bool;
-        if (active) {
-            error = null;
-        }
     }
 
     public void addDifficulty() {
@@ -62,10 +60,9 @@ public class Game extends Component {
         }
         difficulty--;
     }
-
-    public void printError(String err) {
-        error = err;
-        repaint();
+    
+    public SpaceCraft getCraft() {
+        return craft;
     }
 
     @Override
@@ -89,8 +86,11 @@ public class Game extends Component {
             g.setColor(Color.DARK_GRAY);
             g.drawString("score: " + score, 5, 15);
             g.drawString("asteroids: " + ast.count, 5, 25);
-            g.setColor(Color.WHITE);
+            g.drawString("heading: " + craft.getHeading(), 5, 35);
             ast.paint(g);//draw asteroids
+            g.setColor(Color.WHITE);
+            craft.draw(g);//draw spacecraft
+            //ast.paint(g);//draw asteroids
             return;
         }
 
@@ -98,11 +98,6 @@ public class Game extends Component {
 
         //menu
         generateMenu(g);
-
-        //error
-        if (error != null) {
-            printError(g);
-        }
     }
 
     private void generateMenu(Graphics g) {
@@ -113,20 +108,15 @@ public class Game extends Component {
         //menu options
         g.setFont(NORMAL);
         g.drawString(">> Press 's' to start <<", 240, 100);
-        g.drawString("use WASD to play", 250, 120);
+        g.drawString("use A, D, and [space bar] to move!", 210, 120);
         g.drawString("Set difficulty (u)p or (d)own", 230, 170);
         g.drawString("(number of asteroids at once)", 220, 190);
         g.drawString("Current Difficulty: " + difficulty, 240, 210);
         g.drawString("A game by wadec", 250, 270);
         g.drawString("irc.strictfp.com / #nova", 240, 290);
     }
-
-    private void printError(Graphics g) {
-        g.setColor(Color.RED);
-        g.setFont(LOGO);
-        g.drawString(error, 370 - (error.length() * 10), 350);
-    }
     public static final Font LOGO = new Font(Font.MONOSPACED, Font.BOLD, 26);
     public static final Font NORMAL = new Font(Font.SANS_SERIF, Font.PLAIN, 14);
     public static final Random RANDOM = new Random();
+    public static final int FRAME_X = 640, FRAME_Y = 400;
 }
