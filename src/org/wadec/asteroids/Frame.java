@@ -67,13 +67,18 @@ public class Frame extends JFrame implements KeyListener, Runnable {
                 if (!game.isActive()) {
                     game.delDifficulty();
                     repaint();
-                } else { //ingame
-                    game.getCraft().rotateClockwise();
                 }
                 return;
-            case KeyEvent.VK_A://left rotate
+
+            //game play
+            case KeyEvent.VK_RIGHT:
                 if (game.isActive()) {
-                    game.getCraft().rotateCounterClockwise();
+                    game.getCraft().rotate(SpaceCraft.ROT_CLOCKWISE);
+                }
+                return;
+            case KeyEvent.VK_LEFT:
+                if (game.isActive()) {
+                    game.getCraft().rotate(SpaceCraft.ROT_COUNTER);
                 }
                 return;
         }
@@ -98,12 +103,17 @@ public class Frame extends JFrame implements KeyListener, Runnable {
     }
 
     public void keyReleased(KeyEvent e) {//not used
+        if (!game.isActive()) {
+            return;
+        }
+        
         switch (e.getKeyCode()) {
-            case KeyEvent.VK_A://rotation
-            case KeyEvent.VK_D://rotation
-                if (game.isActive()) {
-                    game.getCraft().resetRotation();
-                }
+            case KeyEvent.VK_UP://motion
+                game.getCraft().stop();
+                return;
+            case KeyEvent.VK_RIGHT://rotation
+            case KeyEvent.VK_LEFT://rotation
+                game.getCraft().rotate(SpaceCraft.ROT_NONE);
                 return;
         }
     }

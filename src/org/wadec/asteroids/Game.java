@@ -108,7 +108,7 @@ public class Game extends Component {
         //menu options
         g.setFont(NORMAL);
         g.drawString(">> Press 's' to start <<", 240, 100);
-        g.drawString("use A, W, D, and [space bar] to move!", 210, 120);
+        g.drawString("use arrow keys to move, space bar to shoot!", 180, 120);
         g.drawString("Set difficulty (u)p or (d)own", 230, 170);
         g.drawString("(number of asteroids at once)", 220, 190);
         g.drawString("Current Difficulty: " + difficulty, 240, 210);
